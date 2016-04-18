@@ -21,7 +21,7 @@ class DockingStation
     if bike.broken?
       broken_bikes << bike
     else
-    bikes << bike
+      bikes << bike
     end
   end
 
