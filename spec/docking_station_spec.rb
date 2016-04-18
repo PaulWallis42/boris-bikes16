@@ -4,7 +4,7 @@ describe DockingStation do
 
   let(:bike) { double :bike }
 
-  describe 'initialization' do
+  describe '#initialization' do
 
 
     it 'defaults capacity' do
