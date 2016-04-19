@@ -20,10 +20,10 @@ class DockingStation
 
   def dock(bike)
     fail 'Docking station full' if full?
-    if bike.broken?
-      broken_bikes << bike
-    else
+    if bike.working?
       working_bikes << bike
+    else
+      broken_bikes << bike
     end
   end
 
