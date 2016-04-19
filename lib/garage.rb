@@ -1,10 +1,11 @@
 class Garage
 
-  attr_reader :broken_bikes, :capacity
+  attr_reader :broken_bikes, :capacity, :working_bikes
 
   def initialize(capacity=10)
     @broken_bikes = []
     @capacity = capacity
+    @working_bikes = []
   end
 
   def collect_broken_bikes(van)
@@ -15,6 +16,11 @@ class Garage
         fail 'Garage is Full'
       end
     end
+  end
+
+  def fix_bike(bike)
+    bike.fix_bike
+    working_bikes << bike
   end
 
 end

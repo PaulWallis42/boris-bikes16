@@ -28,4 +28,21 @@ describe Garage do
 
     end
 
+    describe '#fix_bike' do
+
+      it 'can fix a bike' do
+        allow(bike).to receive(:fix_bike)
+        allow(bike).to receive(:broken?).and_return(false)
+        subject.fix_bike(bike)
+        expect(subject.working_bikes[0].broken?).to eq false
+      end
+
+      it 'can store the fixed bike' do
+        allow(bike).to receive(:fix_bike)
+        subject.fix_bike(bike)
+        expect(subject.working_bikes[0]).to eq bike
+      end
+
+    end
+
 end

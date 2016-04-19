@@ -3,6 +3,8 @@ require 'docking_station'
 describe DockingStation do
 
   let(:bike) { double :bike }
+  let(:bike2) { double :bike2 }
+  let(:van) { double :van }
 
   describe '#initialization' do
 
@@ -47,15 +49,33 @@ end
     it 'docks a bike' do
       allow(bike).to receive(:broken?)
       subject.dock(bike)
-      docked_bike = subject.bikes[0]
+      docked_bike = subject.working_bikes[0]
       expect(bike).to eq docked_bike
     end
 
     it 'raises an error when full' do
-        allow(bike).to receive(:broken?)
-        subject.capacity.times { subject.dock(bike) }
-        expect { subject.dock(bike) }.to raise_error 'Docking station full'
+      allow(bike).to receive(:broken?)
+      subject.capacity.times { subject.dock(bike) }
+      expect { subject.dock(bike) }.to raise_error 'Docking station full'
     end
+
+  end
+
+  describe '#collect_working_bikes' do
+
+      it { is_expected.to respond_to :collect_working_bikes }
+
+      it 'can take a van and collect working bikes and store them' do
+        allow(van).to receive(:working_bikes).and_return([bike])
+        subject.collect_working_bikes(van)
+        expect(subject.working_bikes[0]).to eq bike
+      end
+
+      it 'can not take more bikes than it\'s capacity' do
+        docking_station = DockingStation.new(1)
+        allow(van).to receive(:working_bikes).and_return([bike, bike2])
+        expect { docking_station.collect_working_bikes(van) }.to raise_error 'Docking Station Full'
+      end
 
   end
 
