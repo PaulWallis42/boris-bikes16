@@ -2,26 +2,26 @@ require 'bike'
 
 describe Bike do
 
-  describe '#broken?' do
+  describe '#working?' do
 
-    it 'returns false when asked if broken' do
-      expect(subject).not_to be_broken
+    it 'returns true when asked if working' do
+      expect(subject).to be_working
     end
 
     it 'can be reported as broken' do
       subject.report_broken
-      expect(subject).to be_broken
+      expect(subject).not_to be_working
     end
 
   end
 
   describe '#fix_bike' do
 
-    it 'fixes a bike' do
+    it 'fixes a broken bike' do
       subject.report_broken
       subject.fix_bike
-      expect(subject.broken?).to eq false
+      expect(subject.working?).to eq true
     end
-    
+
   end
 end
