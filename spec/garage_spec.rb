@@ -1,48 +1,30 @@
 require 'garage'
+require 'support/shared_examples_for_bike_container'
 
 describe Garage do
 
-  let(:van) { double :van }
   let(:bike) { double :bike }
   let(:bike2) { double :bike2 }
-  let(:bike3) { double :bike3 }
-
-    it 'responds to collect_broken_bikes' do
-      expect(subject).to respond_to :collect_broken_bikes
-    end
-
-    describe '#collect_broken_bikes' do
-
-      it 'can collect multiple bikes from a van' do
-        allow(van).to receive(:broken_bikes).and_return([bike, bike2])
-        garage = Garage.new(10)
-        garage.collect_broken_bikes(van)
-        expect(garage.broken_bikes[0]).to eq bike2
-      end
-
-      it 'has a capacity which it can not go over' do
-        allow(van).to receive(:broken_bikes).and_return([bike, bike2, bike3])
-        garage = Garage.new(2)
-        expect{ garage.collect_broken_bikes(van) }.to raise_error 'Garage is Full'
-      end
-
-    end
 
     describe '#fix_bike' do
 
-      it 'can fix a bike' do
+      it 'fixes bikes and stores in working bikes' do
         allow(bike).to receive(:fix_bike)
-        allow(bike).to receive(:broken?).and_return(false)
-        subject.fix_bike(bike)
-        expect(subject.working_bikes[0].broken?).to eq false
+        allow(bike2).to receive(:fix_bike)
+        subject.broken_bikes.push(bike, bike2)
+        subject.fix_bikes
+        expect(subject.working_bikes.length).to eq 2
       end
 
-      it 'can store the fixed bike' do
+      it 'after fixing all bikes broken bikes is empty' do
         allow(bike).to receive(:fix_bike)
-        subject.fix_bike(bike)
-        expect(subject.working_bikes[0]).to eq bike
+        allow(bike2).to receive(:fix_bike)
+        subject.broken_bikes.push(bike, bike2)
+        subject.fix_bikes
+        expect(subject.broken_bikes.length).to eq 0
       end
 
     end
 
+    it_behaves_like BikeContainer
 end

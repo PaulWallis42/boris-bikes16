@@ -1,4 +1,5 @@
 require 'docking_station'
+require 'support/shared_examples_for_bike_container'
 
 describe DockingStation do
 
@@ -6,18 +7,6 @@ describe DockingStation do
   let(:bike2) { double :bike2 }
   let(:van) { double :van }
 
-  describe '#initialization' do
-
-
-    it 'defaults capacity' do
-      allow(bike).to receive(:working?)
-      described_class::DEFAULT_CAPACITY.times do
-      subject.dock(bike)
-    end
-    expect{ subject.dock(bike) }.to raise_error 'Docking station full'
-  end
-
-end
 
   describe '#release_bike' do
 
@@ -61,22 +50,5 @@ end
 
   end
 
-  describe '#collect_working_bikes' do
-
-      it { is_expected.to respond_to :collect_working_bikes }
-
-      it 'can take a van and collect working bikes and store them' do
-        allow(van).to receive(:working_bikes).and_return([bike])
-        subject.collect_working_bikes(van)
-        expect(subject.working_bikes[0]).to eq bike
-      end
-
-      it 'can not take more bikes than it\'s capacity' do
-        docking_station = DockingStation.new(1)
-        allow(van).to receive(:working_bikes).and_return([bike, bike2])
-        expect { docking_station.collect_working_bikes(van) }.to raise_error 'Docking Station Full'
-      end
-
-  end
-
+  it_behaves_like BikeContainer
 end
