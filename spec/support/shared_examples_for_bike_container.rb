@@ -30,5 +30,4 @@ shared_examples_for BikeContainer do
     expect { subject.collect_working_bikes(container_working) }.to raise_error "Bike Storage Full"
   end
 
-
 end
